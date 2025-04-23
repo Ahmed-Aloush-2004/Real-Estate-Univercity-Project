@@ -19,10 +19,10 @@ export class RealEstateOfficeService {
         private readonly deleteProvider: DeleteRealEstateOfficeProvider,
     ) { }
 
-    async get(realEstateOfficeId: string) {
+    async getRealEstateOfficeById(realEstateOfficeId: string) {
         let realEstateOffice = await this.repo.findOne({
             where: {
-                id: realEstateOfficeId
+                id: realEstateOfficeId 
             }, relations: ['photo', 'manager']
         })
         if(!realEstateOffice){
@@ -33,20 +33,36 @@ export class RealEstateOfficeService {
         return realEstateOffice;
     }
 
+    async getMyRealEstateOffice(realEstateOfficeId: string) {
+        let realEstateOffice = await this.repo.findOne({
+            where: {
+                id: realEstateOfficeId 
+            }, relations: ['photo', 'manager']
+        })
+        if(!realEstateOffice){
+            throw new NotFoundException(`the real estate office with this id:${realEstateOfficeId}. it doesn't exist.`)
+        }
+        
+        return realEstateOffice;
+    }
+
+
+
+
     async create(dto: CreateRealEstateOfficeDto, file: Express.Multer.File, managerId: string) {
         return this.createProvider.createRealEstateOffice(dto, file, managerId);
     }
 
     async update(
-        id: string,
+      ManagerId:string,
         dto: UpdateRealEstateOfficeDto,
         file?: Express.Multer.File
       ) {
-        return this.updateProvider.updateRealEstateOffice(id, dto, file);
+        return await this.updateProvider.updateRealEstateOffice(ManagerId, dto, file);
       }
       
 
-    async delete(id: string) {
-        return this.deleteProvider.deleteRealEstateOffice(id);
+    async deleteMyRealEstateOffice(ManagerId: string) {
+        return await this.deleteProvider.deleteRealEstateOffice(ManagerId);
     }
 }

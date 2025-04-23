@@ -1,4 +1,5 @@
 import {
+  ForbiddenException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -6,9 +7,10 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { Property } from '../property.entity';
-import { Location } from '../../locations/location.entity';
+import { Location } from '../../real-estate-office/locations/location.entity';
 import { Upload } from '../../uploads/upload.entity';
 import { UploadsService } from '../../uploads/providers/uploads.service';
+import { RealEstateOffice } from 'src/real-estate-office/real-estate-office.entity';
 
 @Injectable()
 export class DeletePropertyProvider {
@@ -24,23 +26,39 @@ export class DeletePropertyProvider {
     private readonly uploadsService: UploadsService,
   ) { }
 
-  public async deleteProperty(id: string): Promise<void> {
+  public async deleteProperty(
+    officeManagerId: string,
+    id: string
+  ): Promise<void> {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
 
     try {
-      const property = await queryRunner.manager.findOne(Property, {
-        where: { id },
-        relations: ['location', 'photos'],
-      });
+        const property = await queryRunner.manager.findOne(Property, {
+             where: { id },
+             relations: ['location', 'photos', 'realEstateOffice'],
+           });
+     
+           if (!property) {
+             throw new NotFoundException(`Property with ID ${id} not found.`);
+           }
+     
+           let realEstateOffice = await queryRunner.manager.findOne(RealEstateOffice,{
+             where:{
+               id:property.realEstateOffice.id
+             },
+             relations:['manager']
+           })
+     
+     
+           if (realEstateOffice.manager.id !== officeManagerId) {
+             throw new ForbiddenException('You don\'t allow for you to do it!.')
+           }
 
-      if (!property) {
-        throw new NotFoundException(`Property with ID ${id} not found.`);
-      }
 
       // ✅ 1. Delete photos from Cloudinary
-      if (property.photos && property.photos.length > 0) {
+      if (property.photos && property.photos.length > 0) { 
         for (const photo of property.photos) {
           await this.uploadsService.deleteImageFromCloudinary('properties', photo.path);
         }

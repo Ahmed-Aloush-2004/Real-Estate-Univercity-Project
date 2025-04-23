@@ -16,10 +16,10 @@ export class UpdateUserProfileDto {
   @IsPhoneNumber('SY')
   phoneNumber?: string;
 
-  @IsOptional()
-  @IsEmail()
-  @Length(5, 96)
-  email?: string;
+  // @IsOptional()
+  // @IsEmail()
+  // @Length(5, 96)
+  // email?: string;
 
 
 }

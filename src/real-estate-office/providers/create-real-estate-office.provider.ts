@@ -18,7 +18,7 @@ export class CreateRealEstateOfficeProvider {
   async createRealEstateOffice(dto: CreateRealEstateOfficeDto, file: Express.Multer.File, managerId: string): Promise<RealEstateOffice> {
     try {
       return await this.dataSource.transaction(async (manager) => {
-
+ 
         
         const user = await this.usersService.findOneUserById(managerId);
         if (!user) throw new NotFoundException('Manager not found');
@@ -34,7 +34,7 @@ export class CreateRealEstateOfficeProvider {
 
         const office = manager.create(RealEstateOffice, {
           name: dto.name,
-          descrption: dto.description,
+          description: dto.description,
           photo: savedUpload,
           manager: user,
         });

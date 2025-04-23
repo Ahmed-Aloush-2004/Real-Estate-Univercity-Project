@@ -14,9 +14,9 @@ import { AuthenticationGuard } from './auth/guards/authentication/authentication
 import { UploadsModule } from './uploads/uploads.module';
 import cloudinaryConfig from './config/cloudinary.config';
 import { Upload } from './uploads/upload.entity';
-import { LocationsModule } from './locations/locations.module';
+import { LocationsModule } from './real-estate-office/locations/locations.module';
 import { PropertyModule } from './property/property.module';
-import { Location } from './locations/location.entity';
+import { Location } from './real-estate-office/locations/location.entity';
 import { Property } from './property/property.entity';
 import { RealEstateOfficeModule } from './real-estate-office/real-estate-office.module';
 import { RealEstateOffice } from './real-estate-office/real-estate-office.entity';
@@ -47,7 +47,7 @@ const ENV = process.env.NODE_ENV;
         entities:[User,Upload,Location,Property,RealEstateOffice],
       }),
     }),
-    AuthModule,
+    AuthModule, 
     UploadsModule,
     LocationsModule,
     PropertyModule,

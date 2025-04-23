@@ -22,24 +22,24 @@ export class RealEstateOffice {
         type: 'varchar',
         nullable: true
     })
-    descrption?: string;
+    description?: string;
 
 
 
-    @OneToOne(() => Upload, { nullable: true, cascade: true })
+    @OneToOne(() => Upload, { onDelete: 'SET NULL', nullable: true, cascade: true })
     @JoinColumn()
     photo: Upload;
 
-    @OneToOne(() => User, { nullable: false })
+    @OneToOne(() => User, (user) => user.realEstateOffice)
     @JoinColumn()
     manager: User;
 
     @OneToMany(() => Property, (property) => property.realEstateOffice, { cascade: true })
     properties: Property[];
-
+ 
     // @OneToOne(() => Upload)
     // photo: Upload;
-    // // logo: Upload;
+    // // logo: Upload; 
 
 
     // @OneToOne(() => User)

@@ -32,6 +32,17 @@ export class UserController {
         return this.usersService.updateUserProfile(user.sub, updateUserProfileDto, file);
     }
 
+
+    @Post('/change-role')
+    @HttpCode(200)
+    async changeMyRole(
+        @ActiveUser() user: ActiveUserData,
+    ) {
+        return this.usersService.changeRoleForHavingARealEstateOffice(user.sub);
+    }
+
+
+
     @Delete('/profile')
     @HttpCode(200)
     async deleteMyProfile(

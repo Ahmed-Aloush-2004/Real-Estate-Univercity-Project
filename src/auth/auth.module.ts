@@ -11,6 +11,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { LoginProvider } from './providers/login.provider';
 import { RefreshTokensProvider } from './providers/refresh-tokens.provider';
 import { AccessTokenGuard } from './guards/access-token/access-token.guard';
+import { AccessRealEstateOfficeMethodsGuard } from './guards/access-real-estate-office-methods/access-real-estate-office-methods.guard';
 
 @Module({
   imports: [
@@ -30,7 +31,7 @@ import { AccessTokenGuard } from './guards/access-token/access-token.guard';
     LoginProvider,
     RefreshTokensProvider,
     AccessTokenGuard, // <-- Export here too
-
+    AccessRealEstateOfficeMethodsGuard,
 
   ],
   controllers: [AuthController],
@@ -44,7 +45,7 @@ import { AccessTokenGuard } from './guards/access-token/access-token.guard';
     LoginProvider,
     RefreshTokensProvider,
     AccessTokenGuard, // <-- Export here too
-
+    AccessRealEstateOfficeMethodsGuard,
   ],
 })
 export class AuthModule { }

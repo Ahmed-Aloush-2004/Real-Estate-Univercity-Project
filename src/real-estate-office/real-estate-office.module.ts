@@ -8,12 +8,14 @@ import { DeleteRealEstateOfficeProvider } from './providers/delete-real-estate-o
 import { UploadsModule } from 'src/uploads/uploads.module';
 import { UsersModule } from 'src/users/users.module';
 import { RealEstateOfficeController } from './real-estate-office.controller';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
     imports:[
         TypeOrmModule.forFeature([RealEstateOffice]),
         UploadsModule,
         UsersModule,
+        AuthModule,
     ],
     providers:[RealEstateOfficeService, CreateRealEstateOfficeProvider, UpdateRealEstateOfficeProvider, DeleteRealEstateOfficeProvider],
     exports:[],

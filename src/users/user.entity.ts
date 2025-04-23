@@ -2,6 +2,7 @@
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { UserRole } from './enums/user-role.enum';
 import { Upload } from 'src/uploads/upload.entity';
+import { RealEstateOffice } from 'src/real-estate-office/real-estate-office.entity';
 
 @Entity()
 export class User {
@@ -39,6 +40,10 @@ export class User {
         unique: true,
     })
     email: string;
+
+    @OneToOne(() => RealEstateOffice, (realEstateOffice) => realEstateOffice.manager, { nullable: true })
+    realEstateOffice?: RealEstateOffice;
+    
 
     // @Column({
     //     type: 'varchar',

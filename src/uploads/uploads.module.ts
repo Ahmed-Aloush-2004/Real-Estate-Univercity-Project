@@ -10,6 +10,7 @@ import { Upload } from './upload.entity';
   imports:[
     ConfigModule.forFeature(cloudinaryConfig),
     TypeOrmModule.forFeature([Upload]),
+    
   ],
   controllers:[],
   providers: [

@@ -12,7 +12,7 @@ import {
 } from 'class-validator';
 import { PropertyType } from '../enums/property-type.enum';
 import { PropertySellingType } from '../enums/property-selling-type.enum';
-import { CreateLocationDto } from '../../locations/dtos/create-location.dto';
+import { CreateLocationDto } from '../../real-estate-office/locations/dtos/create-location.dto';
 
 export class CreatePropertyDto {
   @IsNotEmpty()

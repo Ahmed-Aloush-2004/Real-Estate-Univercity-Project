@@ -58,7 +58,7 @@ export class UserProfileProvider {
       user.firstName = updateData.firstName || user.firstName;
       user.lastName = updateData.lastName || user.lastName;
       user.phoneNumber = updateData.phoneNumber || user.phoneNumber;
-      user.email = updateData.email || user.email;
+      // user.email = updateData.email || user.email;
 
       // If a new file is provided, handle the image upload
 

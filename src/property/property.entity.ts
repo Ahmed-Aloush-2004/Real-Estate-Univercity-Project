@@ -1,7 +1,7 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { PropertyType } from "./enums/property-type.enum";
 import { Upload } from "src/uploads/upload.entity";
-import { Location } from '../locations/location.entity'
+import { Location } from '../real-estate-office/locations/location.entity'
 import { PropertySellingType } from "./enums/property-selling-type.enum";
 import { RealEstateOffice } from "src/real-estate-office/real-estate-office.entity";
 @Entity()
@@ -51,9 +51,9 @@ export class Property {
     photos: Upload[];
 
     @ManyToOne(() => RealEstateOffice, (office) => office.properties, { onDelete: 'SET NULL' })
-    realEstateOffice: RealEstateOffice;
+    realEstateOffice: RealEstateOffice;  
 
-
+ 
 
     // @OneToOne(() => Location)
     // @JoinColumn()

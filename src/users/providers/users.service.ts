@@ -7,6 +7,7 @@ import { HashingProvider } from 'src/auth/providers/hashing.provider';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { UserProfileProvider } from './user-profile.provider';
 import { UpdateUserProfileDto } from '../dtos/update-user-profile.dto';
+import { UserRole } from '../enums/user-role.enum';
 
 @Injectable()
 export class UsersService {
@@ -82,6 +83,34 @@ export class UsersService {
         }
     }
 
+    public async changeRoleForHavingARealEstateOffice(
+        userId: string
+    ) {
+        try {
+
+            let user = await this.usersRepository.findOne({
+                where: {
+                    id: userId
+                }
+            });
+
+            if (!user) {
+                throw new NotFoundException(`user with this id:${userId}. it doesn't exist.`)
+            }
+
+            user.role = UserRole.Admin;
+
+            return await this.usersRepository.save(user);
+
+        } catch (error) {
+            if(error === NotFoundException) throw error;
+            
+            throw new RequestTimeoutException(error, {
+                description: 'Something happen when we were connecting with the DB'
+            })
+        }
+
+    }
 
     public async createUser(createUserDto: CreateUserDto) {
 
