@@ -86,38 +86,77 @@ export class UpdateOfficeProvider {
     @InjectRepository(Office)
     private readonly officeRepository: Repository<Office>,
 
-
-    // @InjectRepository(User)
-    // private readonly userRepository: Repository<User>,
-
     private readonly photoService: PhotoService,
-  ) { }
+  ) {}
 
   async updateOffice(
-    ManagerId: string,
+    managerId: string,
     dto: UpdateOfficeDto,
-    // file?: Express.Multer.File,
+    // licenseFile?: Express.Multer.File, // Uncomment if you plan to support license update
   ): Promise<Office> {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
 
     try {
-
+      
+      // 🔍 Get the user and their office
       const user = await queryRunner.manager.findOne(User, {
-        where: { id: ManagerId },
-        relations: ['office']
+        where: { id: managerId },
+        relations: ['office'],
       });
 
-
-      if(!user.office){
-        throw new ForbiddenException('it isn\'t allowed for you to do this.')
+      if (!user || !user.office) {
+        throw new ForbiddenException(`You don't have permission to update an office`);
       }
 
       const office = await queryRunner.manager.findOne(Office, {
-        where: { id:user.office.id },
-        // relations: ['license'],
+        where: { id: user.office.id },
+        relations: ['license'], // include if planning to replace license image
       });
+
+      if (!office) {
+        throw new NotFoundException(`Office not found for update`);
+      }
+
+      // 🛠️ Merge changes from DTO
+      this.officeRepository.merge(office, dto);
+
+      // 💡 Optional: handle license file upload if you enable it
+      /*
+      if (licenseFile) {
+        // Delete old license photo
+        if (office.license) {
+          await this.photoService.deleteImageFromCloudinary(office.license.publicId);
+          await queryRunner.manager.remove(office.license);
+        }
+
+        const uploaded = await this.photoService.uploadImageToCloudinary('licenses', licenseFile);
+        const newPhoto = new Photo();
+        newPhoto.url = uploaded.secure_url;
+        newPhoto.publicId = uploaded.public_id;
+
+        const savedPhoto = await queryRunner.manager.save(Photo, newPhoto);
+        office.license = savedPhoto;
+      }
+      */
+
+      // 💾 Save and commit
+      const updatedOffice = await queryRunner.manager.save(office);
+      await queryRunner.commitTransaction();
+
+      return updatedOffice;
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+      console.error('Error updating office:', error);
+      throw new InternalServerErrorException('Failed to update office.');
+    } finally {
+      await queryRunner.release();
+    }
+  }
+}
+
+
 
       // if (!office) {
       //   throw new NotFoundException(`RealEstateOffice with ID ${id} not found.`);
@@ -145,19 +184,3 @@ export class UpdateOfficeProvider {
       //   const savedUpload = await queryRunner.manager.save(newUpload);
       //   office.photo = savedUpload;
       // }
-
-      // ✅ 2. Update other fields
-      this.officeRepository.merge(office, dto);
-
-      const updatedOffice = await queryRunner.manager.save(office);
-      await queryRunner.commitTransaction();
-      return updatedOffice;
-    } catch (error) {
-      await queryRunner.rollbackTransaction();
-      console.error('Error updating real estate office:', error);
-      throw new InternalServerErrorException('Failed to update real estate office.');
-    } finally {
-      await queryRunner.release();
-    }
-  }
-}

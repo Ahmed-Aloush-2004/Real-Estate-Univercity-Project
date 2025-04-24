@@ -12,14 +12,14 @@ import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthenticationGuard } from './auth/guards/authentication/authentication.guard';
 import cloudinaryConfig from './config/cloudinary.config';
-import { LocationsModule } from './locations/locations.module';
 import { PropertyModule } from './property/property.module';
-import { Location } from './locations/location.entity';
+import { Location } from './location/location.entity';
 import { Property } from './property/property.entity';
 import { OfficeModule } from './office/office.module';
 import { Office } from './office/office.entity';
 import { PhotoModule } from './photo/photo.module';
 import { Photo } from './photo/photo.entity';
+import { LocationModule } from './location/location.module';
 
 const ENV = process.env.NODE_ENV;
 
@@ -49,7 +49,7 @@ const ENV = process.env.NODE_ENV;
     UserModule,
     AuthModule, 
     PhotoModule,
-    LocationsModule,
+    LocationModule,
     PropertyModule,
     OfficeModule,
 

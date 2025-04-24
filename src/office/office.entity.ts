@@ -22,7 +22,7 @@ export class Office {
     license: Photo;
 
     @Column({
-        type: 'number',
+        type: 'numeric',
         nullable: true,
         default: 0,
     })
@@ -32,8 +32,17 @@ export class Office {
     @JoinColumn()
     manager: User;
 
-    // @OneToMany(() => Property, (property) => property.realEstateOffice, { cascade: true })
-    // properties: Property[];
+    @OneToMany(() => Property, (property) => property.office)
+    properties: Property[];
 
-  
+    
+    
+    
+    
 }
+
+
+
+
+// @OneToMany(() => Property, (property) => property.realEstateOffice, { cascade: true })
+// properties: Property[];

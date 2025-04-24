@@ -24,6 +24,8 @@ export class PropertyService {
     public async getPropertiesWithFilterAndPagination(
         filterDto: FilterPropertyDto,
     ): Promise<PaginatedResponse<Property[]>> {
+        
+        
         return await this
             .getPropertiesWithFilterAndPaginationProvider
             .getPropertiesWithFilterAndPagination(filterDto);

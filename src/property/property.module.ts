@@ -6,16 +6,16 @@ import { CreatePropertyProvider } from './providers/create-property.provider';
 import { UpdatePropertyProvider } from './providers/update-property.provider';
 import { DeletePropertyProvider } from './providers/delete-property.provider';
 import { PropertyController } from './property.controller';
-import { LocationsModule } from 'src/locations/locations.module';
-import { UploadsModule } from 'src/uploads/uploads.module';
 import { GetPropertyByIdProvider } from './providers/get-property-by-id.provider';
 import { GetPropertiesWithFilterAndPaginationProvider } from './providers/get-properties-with-filter-and-pagination.provider';
+import { PhotoModule } from 'src/photo/photo.module';
+import { LocationModule } from 'src/location/location.module';
 
 @Module({
     imports:[
         TypeOrmModule.forFeature([Property]),
-        LocationsModule,
-        UploadsModule,
+        LocationModule,
+        PhotoModule,
     ],
     providers: [PropertyService, CreatePropertyProvider, UpdatePropertyProvider, DeletePropertyProvider, GetPropertyByIdProvider, GetPropertiesWithFilterAndPaginationProvider],
     controllers: [PropertyController],

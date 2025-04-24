@@ -20,8 +20,8 @@ export class PhotoService {
         return await this.cloudinaryProvider.uploadImageToCloudinary(folderName,file)
     }
 
-    public async deleteImageFromCloudinary(folderName,url: string) {
-        return await this.cloudinaryProvider.deleteImageFromCloudinary(folderName,url);
+    public async deleteImageFromCloudinary(publicId: string) {
+        return await this.cloudinaryProvider.deleteImageFromCloudinary(publicId);
     }
 
     public async saveUpload(photo: Photo, manager: EntityManager): Promise<Photo> {

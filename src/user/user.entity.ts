@@ -42,34 +42,34 @@ export class User {
     email: string;
 
 
-    @OneToOne(() => Photo)
+    @OneToOne(() => Photo, { onDelete: 'SET NULL', nullable: true })
     @JoinColumn()
-    photo: Photo;
+    photo?: Photo;
 
     @Column({
-        type: 'enum',
+        type: 'enum',  
         enum: UserRole,
         nullable: false,
         default: UserRole.Customer
     })
     role: UserRole;
-    
+
     @Column({
         type: 'varchar',
         length: 96,
         nullable: false,
     })
     password: string;
-    
+
     @OneToOne(() => Office, (office) => office.manager)
     office?: Office;
 
 
-    }
+}
 
 
 
 
-    
+
 
 

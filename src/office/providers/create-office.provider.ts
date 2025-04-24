@@ -13,37 +13,51 @@ export class CreateOfficeProvider {
     private readonly photoService: PhotoService,
     private readonly userService: UserService,
     private readonly dataSource: DataSource,
-  ) { }
+  ) {}
 
   async createOffice(
     dto: CreateOfficeDto,
-    license: Express.Multer.File,
-    managerId: string
+    licenseFile: Express.Multer.File,
+    managerId: string,
   ): Promise<Office> {
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+console.log(licenseFile?.size);
+
     try {
-      return await this.dataSource.transaction(async (manager) => {
+      // Fetch manager user
+      const managerUser = await this.userService.findOneUserById(managerId);
+      if (!managerUser) {
+        throw new NotFoundException(`Manager with ID ${managerId} not found`);
+      }
 
+      // Upload license photo
+      const uploaded = await this.photoService.uploadImageToCloudinary('licenses', licenseFile);
 
-        const user = await this.userService.findOneUserById(managerId);
-        if (!user) throw new NotFoundException('Manager not found');
+      // Create photo entity
+      const licensePhoto = new Photo();
+      licensePhoto.url = uploaded.secure_url;
+      licensePhoto.publicId = uploaded.public_id;
+      const savedLicensePhoto = await queryRunner.manager.save(Photo, licensePhoto);
 
-        const result = await this.photoService.uploadImageToCloudinary('licenses', license);
+      // Create office entity
+      const newOffice = new Office();
+      newOffice.name = dto.name;
+      newOffice.license = savedLicensePhoto;
+      newOffice.manager = managerUser;
 
-        const photo = manager.create(Photo, {
-          url: result.secure_url
-        });
-        const savedPhoto = await manager.save(photo);
+      const savedOffice = await queryRunner.manager.save(Office, newOffice);
 
-        const office = manager.create(Office, {
-          name: dto.name,
-          license: savedPhoto,
-          manager: user,
-        });
-
-        return await manager.save(office);
-      });
+      await queryRunner.commitTransaction();
+      return savedOffice;
     } catch (error) {
-      throw new InternalServerErrorException('Failed to create RealEstateOffice', error.message);
+      console.log(error);
+      
+      await queryRunner.rollbackTransaction();
+      throw new InternalServerErrorException('Failed to create RealEstateOffice');
+    } finally {
+      await queryRunner.release();
     }
   }
 }

@@ -13,7 +13,12 @@ export class GetPropertyByIdProvider {
 
     public async getPropertyById(id: string) {
         try {
-            let property = await this.propertyRepository.findOneBy({ id })
+            let property = await this.propertyRepository.findOne({
+                where:{
+                    id
+                },
+                relations:['office','photos','location']
+            })
             if (!property) throw new NotFoundException(`Property with this id:${id} doesn't exist.`)
             return property;
         } catch (error) {

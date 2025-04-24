@@ -7,10 +7,10 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { Property } from '../property.entity';
-import { Location } from '../../locations/location.entity';
-import { Upload } from '../../uploads/upload.entity';
-import { UploadsService } from '../../uploads/providers/uploads.service';
+import { Location } from '../../location/location.entity';
 import { Office } from 'src/office/office.entity';
+import { PhotoService } from 'src/photo/providers/photo.service';
+import { Photo } from 'src/photo/photo.entity';
 
 @Injectable()
 export class DeletePropertyProvider {
@@ -23,7 +23,7 @@ export class DeletePropertyProvider {
     @InjectRepository(Location)
     private readonly locationRepository: Repository<Location>,
 
-    private readonly uploadsService: UploadsService,
+    private readonly photoService: PhotoService,
   ) { }
 
   public async deleteProperty(
@@ -37,22 +37,22 @@ export class DeletePropertyProvider {
     try {
         const property = await queryRunner.manager.findOne(Property, {
              where: { id },
-             relations: ['location', 'photos', 'realEstateOffice'],
+             relations: ['location', 'photos', 'office'],
            });
      
            if (!property) {
              throw new NotFoundException(`Property with ID ${id} not found.`);
            }
      
-           let realEstateOffice = await queryRunner.manager.findOne(Office,{
+           let office = await queryRunner.manager.findOne(Office,{
              where:{
-               id:property.realEstateOffice.id
+               id:property.office.id
              },
              relations:['manager']
            })
      
      
-           if (realEstateOffice.manager.id !== officeManagerId) {
+           if (office.manager.id !== officeManagerId) {
              throw new ForbiddenException('You don\'t allow for you to do it!.')
            }
 
@@ -60,12 +60,12 @@ export class DeletePropertyProvider {
       // ✅ 1. Delete photos from Cloudinary
       if (property.photos && property.photos.length > 0) { 
         for (const photo of property.photos) {
-          await this.uploadsService.deleteImageFromCloudinary('properties', photo.path);
+          await this.photoService.deleteImageFromCloudinary(photo.publicId);
         }
 
         // ✅ 2. Remove Upload entities
         for (const photo of property.photos) {
-          await queryRunner.manager.delete(Upload, { id: photo.id });
+          await queryRunner.manager.delete(Photo, { id: photo.id });
         }
       }
 

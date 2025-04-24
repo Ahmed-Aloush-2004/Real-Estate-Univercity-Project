@@ -20,30 +20,29 @@ export class OfficeService {
     ) { }
 
     async getOfficeById(realEstateOfficeId: string) {
-        let realEstateOffice = await this.repo.findOne({
+        let office = await this.repo.findOne({
             where: {
                 id: realEstateOfficeId 
-            }, relations: ['photo', 'manager']
+            }, relations: ['license', 'manager']
         })
-        if(!realEstateOffice){
+        if(!office){
             throw new NotFoundException(`the real estate office with this id:${realEstateOfficeId}. it doesn't exist.`)
         }
-        console.log(realEstateOffice);
         
-        return realEstateOffice;
+        return office;
     }
 
-    async getMyOffice(realEstateOfficeId: string) {
-        let realEstateOffice = await this.repo.findOne({
+    async getMyOffice(officeId: string) {
+        let office = await this.repo.findOne({
             where: {
-                id: realEstateOfficeId 
-            }, relations: ['photo', 'manager']
+                id: officeId 
+            }, relations: ['license', 'manager']
         })
-        if(!realEstateOffice){
-            throw new NotFoundException(`the real estate office with this id:${realEstateOfficeId}. it doesn't exist.`)
+        if(!office){
+            throw new NotFoundException(`the real estate office with this id:${officeId}. it doesn't exist.`)
         }
         
-        return realEstateOffice;
+        return office;
     }
 
 
@@ -65,6 +64,8 @@ export class OfficeService {
       
 
     async deleteMyOffice(ManagerId: string) {
+        console.log("user",ManagerId);
+        
         return await this.deleteProvider.deleteOffice(ManagerId);
     }
 }

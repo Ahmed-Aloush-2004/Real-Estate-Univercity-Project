@@ -1,4 +1,5 @@
-import { Type } from 'class-transformer';
+// src/property/dto/create-property.dto.ts
+
 import {
   IsEnum,
   IsNotEmpty,
@@ -6,26 +7,27 @@ import {
   IsOptional,
   IsString,
   ValidateNested,
-  IsArray,
   IsUUID,
-  IsJSON,
+  ArrayMinSize,
 } from 'class-validator';
+import { Type } from 'class-transformer';
 import { PropertyType } from '../enums/property-type.enum';
 import { PropertySellingType } from '../enums/property-selling-type.enum';
-import { CreateLocationDto } from '../../locations/dtos/create-location.dto';
+import { PropertyOperationType } from '../enums/property-operation-type.enum';
+import { CreateLocationDto } from 'src/location/dtos/create-location.dto';
 
 export class CreatePropertyDto {
   @IsNotEmpty()
-  @IsString()
-  title: string;
+  @IsNumber()
+  propertyNumber: number;
 
   @IsNotEmpty()
-  @IsEnum(PropertyType)
-  property_type: PropertyType;
+  @IsEnum(PropertyOperationType)
+  operation: PropertyOperationType;
 
   @IsNotEmpty()
-  @IsEnum(PropertySellingType)
-  property_selling_type: PropertySellingType;
+  @IsNumber()
+  space: number;
 
   @IsNotEmpty()
   @IsNumber()
@@ -36,18 +38,25 @@ export class CreatePropertyDto {
   description?: string;
 
   @IsNotEmpty()
+  @IsEnum(PropertyType)
+  type: PropertyType;
+
+  @IsOptional()
   @IsNumber()
-  @Type(() => Number)
-  area: number;
+  rating?: number;
 
   // @IsNotEmpty()
-  // @IsJSON()
+  // @IsUUID()
+  // officeId: string;
+
+  @IsNotEmpty()
   @ValidateNested()
   @Type(() => CreateLocationDto)
   location: CreateLocationDto;
 
-  //   @IsOptional()
-  //   @IsArray()
-  //   @IsUUID('all', { each: true })
-  //   photoIds?: string[]; // Assume you're sending Upload entity IDs for photos
+  // This assumes you're uploading photo URLs or IDs. Adjust accordingly if you upload files differently.
+  // @IsOptional()
+  // @IsString({ each: true })
+  // @ArrayMinSize(1)
+  // photoUrls?: string[];
 }

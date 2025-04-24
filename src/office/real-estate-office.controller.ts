@@ -9,7 +9,7 @@ import { ActiveUser } from 'src/auth/decorators/active-user.decorator';
 import { ActiveUserData } from 'src/auth/interfaces/active-user-data.interface';
 import { CreateOfficeDto } from './dtos/create-office.dto';
 
-@Controller('real-estate-offices')
+@Controller('offices')
 export class RealEstateOfficeController {
   constructor(private readonly service: OfficeService) { }
 
@@ -39,29 +39,29 @@ export class RealEstateOfficeController {
     @UploadedFile() file: Express.Multer.File,
     @ActiveUser() user: ActiveUserData,
   ) {
+
     return this.service.createOffice(dto, file, user.sub);
   }
 
   @Patch()
-  // @UseInterceptors(FileInterceptor('file'))
   @UseGuards(AccessRealEstateOfficeMethodsGuard)
   async update(
-    // @Param('id') id: string,
     @ActiveUser() user: ActiveUserData,
     @Body() updateRealEstateOfficeDto: UpdateOfficeDto,
-    // @UploadedFile() file?: Express.Multer.File,
+
   ) {
-    return this.service.updateMyOffice(user.sub, updateRealEstateOfficeDto
-      // , file
-    );
+
+    return this.service.updateMyOffice(user.sub, updateRealEstateOfficeDto);
   }
 
- 
+
   @Delete('')
   @UseGuards(AccessRealEstateOfficeMethodsGuard)
   async delete(
-    @ActiveUser() user:ActiveUserData,
-  ) { 
-   return this.service.deleteMyOffice(user.sub);
+    @ActiveUser() user: ActiveUserData,
+  ) {
+    console.log("user",user.sub);
+    
+    return this.service.deleteMyOffice(user.sub);
   }
 }

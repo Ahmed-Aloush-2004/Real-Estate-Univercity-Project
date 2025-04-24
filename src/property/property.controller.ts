@@ -55,7 +55,7 @@ export class PropertyController {
     @ActiveUser() user: ActiveUserData,
     @Body(ParseLocationPipe) createPropertyDto: any,
     @UploadedFiles() files: Express.Multer.File[]
-  ) {
+  ) {    
     return this.propertyService.createProperty(user.sub, createPropertyDto, files);
   }
 
@@ -73,7 +73,7 @@ export class PropertyController {
     @ActiveUser() user: ActiveUserData,
     @Param('id') id: string,
     @Body(ParseLocationPipe) updatePropertyDto: any,
-    @UploadedFiles() files: Express.Multer.File[]
+    @UploadedFiles() files: Express.Multer.File[] 
   ) {
     return this.propertyService.updateProperty(user.sub, id, updatePropertyDto, files);
   }

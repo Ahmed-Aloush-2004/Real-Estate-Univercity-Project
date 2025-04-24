@@ -17,28 +17,29 @@ export class GetPropertiesWithFilterAndPaginationProvider {
   ): Promise<PaginatedResponse<Property[]>> {
     try {
       const {
-        property_type,
-        property_selling_type,
+        type,
+        operation,
         minPrice,
         maxPrice,
-        minArea,
-        maxArea,
-        // realEstateOfficeId,
+        minSpace,
+        maxSpace,
         page = 1,
         limit = 10,
       } = filterDto;
+      console.log(filterDto);
+      
 
       const query = this.propertyRepository.createQueryBuilder('property')
         .leftJoinAndSelect('property.location', 'location')
         .leftJoinAndSelect('property.photos', 'photos')
-        .leftJoinAndSelect('property.realEstateOffice', 'realEstateOffice');
+        .leftJoinAndSelect('property.office', 'office');
 
-      if (property_type) {
-        query.andWhere('property.property_type = :property_type', { property_type });
+      if (type) {
+        query.andWhere('property.type = :type', { type });
       }
 
-      if (property_selling_type) {
-        query.andWhere('property.property_selling_type = :property_selling_type', { property_selling_type });
+      if (operation) {
+        query.andWhere('property.operation = :operation', { operation });
       }
 
       if (minPrice !== undefined) {
@@ -49,22 +50,18 @@ export class GetPropertiesWithFilterAndPaginationProvider {
         query.andWhere('property.price <= :maxPrice', { maxPrice });
       }
 
-      if (minArea !== undefined) {
-        query.andWhere('property.area >= :minArea', { minArea });
+      if (minSpace !== undefined) {
+        query.andWhere('property.space >= :minSpace', { minSpace });
       }
 
-      if (maxArea !== undefined) {
-        query.andWhere('property.area <= :maxArea', { maxArea });
+      if (maxSpace !== undefined) {
+        query.andWhere('property.space <= :maxSpace', { maxSpace });
       }
-
-    //   if (realEstateOfficeId) {
-    //     query.andWhere('realEstateOffice.id = :realEstateOfficeId', { realEstateOfficeId });
-    //   }
 
       const [data, total] = await query
         .skip((page - 1) * limit)
         .take(limit)
-        .orderBy('property.createdAt', 'DESC')
+        .orderBy('property.rating', 'DESC') // i should add something here 
         .getManyAndCount();
 
       return {

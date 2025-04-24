@@ -1,16 +1,16 @@
-import { IsEnum, IsNumber, IsOptional, IsString, Min } from 'class-validator';
+import { IsEnum, IsNumber, IsOptional, Min } from 'class-validator';
 import { PropertyType } from '../enums/property-type.enum';
-import { PropertySellingType } from '../enums/property-selling-type.enum';
+import { PropertyOperationType } from '../enums/property-operation-type.enum';
 import { Type } from 'class-transformer';
 
 export class FilterPropertyDto {
   @IsOptional()
   @IsEnum(PropertyType)
-  property_type?: PropertyType;
+  type?: PropertyType;
 
   @IsOptional()
-  @IsEnum(PropertySellingType)
-  property_selling_type?: PropertySellingType;
+  @IsEnum(PropertyOperationType)
+  operation?: PropertyOperationType;
 
   @IsOptional()
   @Type(() => Number)
@@ -25,26 +25,22 @@ export class FilterPropertyDto {
   @IsOptional()
   @Type(() => Number)
   @IsNumber()
-  minArea?: number;
+  minSpace?: number;
 
   @IsOptional()
   @Type(() => Number)
   @IsNumber()
-  maxArea?: number;
-
-//   @IsOptional()
-//   @IsString()
-//   realEstateOfficeId?: string;
+  maxSpace?: number;
 
   @IsOptional()
   @Type(() => Number)
   @IsNumber()
   @Min(1)
-  page?: number = 1;
+  page: number = 1;
 
   @IsOptional()
   @Type(() => Number)
   @IsNumber()
   @Min(1)
-  limit?: number = 10;
+  limit: number = 10;
 }

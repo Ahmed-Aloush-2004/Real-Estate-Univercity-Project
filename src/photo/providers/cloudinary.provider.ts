@@ -23,10 +23,7 @@ export class CloudinaryProvider {
     });
   }
 
-  public async deleteImageFromCloudinary(folderName:string,url: string) {
-
-    let publicId = this.extractPublicId(folderName,url);
-
+  public async deleteImageFromCloudinary(publicId: string) {
     return await cloudinary.uploader.destroy(publicId);
   }
 
