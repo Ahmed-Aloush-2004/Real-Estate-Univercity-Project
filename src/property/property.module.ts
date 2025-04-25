@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Property } from './property.entity';
 import { PropertyService } from './providers/property.service';
@@ -10,12 +10,15 @@ import { GetPropertyByIdProvider } from './providers/get-property-by-id.provider
 import { GetPropertiesWithFilterAndPaginationProvider } from './providers/get-properties-with-filter-and-pagination.provider';
 import { PhotoModule } from 'src/photo/photo.module';
 import { LocationModule } from 'src/location/location.module';
+import { PropertyCommentModule } from 'src/property-comment/property-comment.module';
 
 @Module({
     imports:[
         TypeOrmModule.forFeature([Property]),
         LocationModule,
         PhotoModule,
+        forwardRef(()=> PropertyCommentModule)
+        ,
     ],
     providers: [PropertyService, CreatePropertyProvider, UpdatePropertyProvider, DeletePropertyProvider, GetPropertyByIdProvider, GetPropertiesWithFilterAndPaginationProvider],
     controllers: [PropertyController],

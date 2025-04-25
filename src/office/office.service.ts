@@ -13,27 +13,35 @@ import { CreateOfficeDto } from './dtos/create-office.dto';
 export class OfficeService {
     constructor(
         @InjectRepository(Office)
-        private readonly repo: Repository<Office>,
+        private readonly officeRepository: Repository<Office>,
         private readonly createProvider: CreateOfficeProvider,
         private readonly updateProvider: UpdateOfficeProvider,
         private readonly deleteProvider: DeleteOfficeProvider,
     ) { }
 
-    async getOfficeById(realEstateOfficeId: string) {
-        let office = await this.repo.findOne({
+
+    public async getAllOffices(){
+        return await this.officeRepository.find({
+            relations:['properties']
+        })
+    } 
+ 
+
+
+   public async getOfficeById(OfficeId: string) {
+        let office = await this.officeRepository.findOne({
             where: {
-                id: realEstateOfficeId 
+                id: OfficeId 
             }, relations: ['license', 'manager']
         })
         if(!office){
-            throw new NotFoundException(`the real estate office with this id:${realEstateOfficeId}. it doesn't exist.`)
+            throw new NotFoundException(`the real estate office with this id:${OfficeId}. it doesn't exist.`)
         }
-        
         return office;
     }
 
     async getMyOffice(officeId: string) {
-        let office = await this.repo.findOne({
+        let office = await this.officeRepository.findOne({
             where: {
                 id: officeId 
             }, relations: ['license', 'manager']
@@ -41,31 +49,28 @@ export class OfficeService {
         if(!office){
             throw new NotFoundException(`the real estate office with this id:${officeId}. it doesn't exist.`)
         }
-        
         return office;
     }
 
 
 
 
-    async createOffice(dto: CreateOfficeDto, file: Express.Multer.File, managerId: string) {
-        return this.createProvider.createOffice(dto, file, managerId);
+    async createOffice(createOfficeDto: CreateOfficeDto, file: Express.Multer.File, managerId: string) {
+        return this.createProvider.createOffice(createOfficeDto, file, managerId);
     }
 
     async updateMyOffice(
       ManagerId:string,
-        dto: UpdateOfficeDto,
+        updateOfficeDto: UpdateOfficeDto,
         // file?: Express.Multer.File
       ) {
-        return await this.updateProvider.updateOffice(ManagerId, dto
+        return await this.updateProvider.updateOffice(ManagerId, updateOfficeDto
             // , file
         );
       }
       
 
-    async deleteMyOffice(ManagerId: string) {
-        console.log("user",ManagerId);
-        
+    async deleteMyOffice(ManagerId: string) {        
         return await this.deleteProvider.deleteOffice(ManagerId);
     }
 }

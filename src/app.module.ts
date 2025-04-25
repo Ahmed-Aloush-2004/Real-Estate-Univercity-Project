@@ -20,6 +20,10 @@ import { Office } from './office/office.entity';
 import { PhotoModule } from './photo/photo.module';
 import { Photo } from './photo/photo.entity';
 import { LocationModule } from './location/location.module';
+import { PropertyCommentModule } from './property-comment/property-comment.module';
+import { PropertyComment } from './property-comment/property-comment.entity';
+import { OfficeCommentModule } from './office-comment/office-comment.module';
+import { OfficeComment } from './office-comment/office-comment.entity';
 
 const ENV = process.env.NODE_ENV;
 
@@ -43,7 +47,7 @@ const ENV = process.env.NODE_ENV;
         password: configService.get('databaseConfig.password'),
         synchronize: configService.get('databaseConfig.synchronize'),
         autoLoadEntities: configService.get('databaseConfig.autoLoadEntities'),
-        entities:[User,Photo,Location,Property,Office],
+        entities:[User,Photo,Location,Property,Office,PropertyComment,OfficeComment],
       }),
     }),
     UserModule,
@@ -52,6 +56,8 @@ const ENV = process.env.NODE_ENV;
     LocationModule,
     PropertyModule,
     OfficeModule,
+    PropertyCommentModule,
+    OfficeCommentModule,
 
 
   ],

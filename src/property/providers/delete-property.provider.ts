@@ -64,7 +64,7 @@ export class DeletePropertyProvider {
         }
 
         // ✅ 2. Remove Upload entities
-        for (const photo of property.photos) {
+        for (const photo of property.photos) { 
           await queryRunner.manager.delete(Photo, { id: photo.id });
         }
       }

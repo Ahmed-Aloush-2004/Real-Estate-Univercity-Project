@@ -6,6 +6,7 @@ import { User } from './user.entity';
 import { UserController } from './user.controller';
 import { UserProfileProvider } from './providers/user-profile.provider';
 import { PhotoModule } from 'src/photo/photo.module';
+import { FavoritePropertiesForUser } from './providers/favorite-properties-for-user';
 
 @Module({
     imports: [
@@ -16,6 +17,7 @@ import { PhotoModule } from 'src/photo/photo.module';
     providers: [
         UserService,
         UserProfileProvider,
+        FavoritePropertiesForUser,
     ],
     controllers: [UserController,],
     exports: [UserService],

@@ -5,6 +5,7 @@ import { PropertySellingType } from "./enums/property-selling-type.enum";
 import { Office } from "src/office/office.entity";
 import { Photo } from "src/photo/photo.entity";
 import { PropertyOperationType } from "./enums/property-operation-type.enum";
+import { PropertyComment } from "src/property-comment/property-comment.entity";
 @Entity()
 export class Property {
     @PrimaryGeneratedColumn('uuid')
@@ -68,6 +69,10 @@ export class Property {
     @OneToOne(() => Location,)
     @JoinColumn()
     location: Location;
+
+
+    @OneToMany(() => PropertyComment, (propertyComment) => propertyComment.property)
+    propertyComments: PropertyComment[];
 
 }
 

@@ -9,18 +9,21 @@ import { ActiveUser } from 'src/auth/decorators/active-user.decorator';
 import { ActiveUserData } from 'src/auth/interfaces/active-user-data.interface';
 import { CreateOfficeDto } from './dtos/create-office.dto';
 
-@Controller('offices')
-export class RealEstateOfficeController {
-  constructor(private readonly service: OfficeService) { }
+@Controller('office')
+export class OfficeController {
+  constructor(private readonly officeService: OfficeService) { }
 
+  @Get()
+  async getAllOffices(){
+    return this.officeService.getAllOffices()
+  }
 
   @Get(':id')
-  async get(
+  async getOfficeById(
     @Param('id', ParseUUIDPipe) id: string,
     @ActiveUser() user: ActiveUserData,
-
   ) {
-    return this.service.getOfficeById(id);
+    return this.officeService.getOfficeById(id);
   }
 
 
@@ -34,34 +37,30 @@ export class RealEstateOfficeController {
   @Post()
   @UseInterceptors(FileInterceptor('file'))
   @UseGuards(AccessRealEstateOfficeMethodsGuard)
-  async create(
+  async createOffice(
     @Body() dto: CreateOfficeDto,
     @UploadedFile() file: Express.Multer.File,
     @ActiveUser() user: ActiveUserData,
   ) {
-
-    return this.service.createOffice(dto, file, user.sub);
+    return this.officeService.createOffice(dto, file, user.sub);
   }
 
   @Patch()
   @UseGuards(AccessRealEstateOfficeMethodsGuard)
-  async update(
+  async updateOffice(
     @ActiveUser() user: ActiveUserData,
     @Body() updateRealEstateOfficeDto: UpdateOfficeDto,
 
   ) {
-
-    return this.service.updateMyOffice(user.sub, updateRealEstateOfficeDto);
+    return this.officeService.updateMyOffice(user.sub, updateRealEstateOfficeDto);
   }
 
 
   @Delete('')
   @UseGuards(AccessRealEstateOfficeMethodsGuard)
-  async delete(
+  async deleteOffice(
     @ActiveUser() user: ActiveUserData,
-  ) {
-    console.log("user",user.sub);
-    
-    return this.service.deleteMyOffice(user.sub);
+  ) {    
+    return this.officeService.deleteMyOffice(user.sub);
   }
 }

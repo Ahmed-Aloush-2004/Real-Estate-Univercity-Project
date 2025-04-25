@@ -5,6 +5,7 @@ import { ActiveUserData } from 'src/auth/interfaces/active-user-data.interface';
 import { UpdateUserProfileDto } from './dtos/update-user-profile.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Auth } from 'src/auth/decorators/auth.decorator';
+import { FavoriteListIdDto } from './dtos/favorite-list-id.dto';
 
 @Controller('user')
 export class UserController {
@@ -41,6 +42,32 @@ export class UserController {
         return this.userService.changeRoleForHavingARealEstateOffice(user.sub);
     }
 
+    @Get('/get-my-favorite-list')
+    @HttpCode(200)
+    async getMyFavoriteList(
+        @ActiveUser() user: ActiveUserData,
+    ) {
+        return this.userService.getAllPropertiesInMyFavoriteList(user.sub);
+    }
+
+
+    @Post('/add-for-favorite-list')
+    @HttpCode(200)
+    async addToFavoriteList(
+        @ActiveUser() user: ActiveUserData,
+        @Body() { propertyId }: FavoriteListIdDto,
+    ) {
+        return this.userService.addPropertyToUserFavoriteList(user.sub, propertyId);
+    }
+
+    @Post('/remove-from-favorite-list')
+    @HttpCode(200)
+    async removeFromFavoriteList(
+        @ActiveUser() user: ActiveUserData,
+        @Body() { propertyId }: FavoriteListIdDto,
+    ) {
+        return this.userService.removePropertyFromUserFavoriteList(user.sub, propertyId);
+    }
 
 
     @Delete('/profile')

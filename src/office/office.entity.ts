@@ -1,3 +1,4 @@
+import { OfficeComment } from "src/office-comment/office-comment.entity";
 import { Photo } from "src/photo/photo.entity";
 import { Property } from "src/property/property.entity";
 import { User } from "src/user/user.entity";
@@ -35,10 +36,13 @@ export class Office {
     @OneToMany(() => Property, (property) => property.office)
     properties: Property[];
 
-    
-    
-    
-    
+
+    @OneToMany(() => OfficeComment, (officeComment) => officeComment.office)
+    officeComments: OfficeComment[];
+
+
+
+
 }
 
 

@@ -8,6 +8,8 @@ import { CreateUserDto } from '../dtos/create-user.dto';
 import { UserProfileProvider } from './user-profile.provider';
 import { UpdateUserProfileDto } from '../dtos/update-user-profile.dto';
 import { UserRole } from '../enums/user-role.enum';
+import { FavoritePropertiesForUser } from './favorite-properties-for-user';
+import { Property } from 'src/property/property.entity';
 
 @Injectable()
 export class UserService {
@@ -22,15 +24,18 @@ export class UserService {
 
         private readonly userProfileProvider: UserProfileProvider,
 
+        private readonly favoritePropertiesForUser:FavoritePropertiesForUser,
+
     ) { }
 
 
-    private async findUserByField(field: string, value: string): Promise<User> {
+    public async findUserByField(field: string, value: string): Promise<User> {
         try {
             const user = await this.userRepository.findOne({ where: { [field]: value } });
             if (!user) throw new NotFoundException(`User not found with ${field}: ${value}`);
             return user;
         } catch (error) {
+            if(error instanceof NotFoundException) throw error
             throw new RequestTimeoutException('Error connecting to the DB', error);
         }
     }
@@ -170,6 +175,21 @@ export class UserService {
 
     public async deleteUserProfileData(id: string): Promise<void> {
         return await this.userProfileProvider.deleteUserProfileData(id);
+    }
+
+        public async getAllPropertiesInMyFavoriteList(userId: string): Promise<Property[]> {
+            return await this.favoritePropertiesForUser.getAllPropertiesInMyFavoriteList(userId)
+        }
+
+
+
+    public async addPropertyToUserFavoriteList(userId: string, propertyId: string): Promise<void> {
+        return await this.favoritePropertiesForUser.addPropertyToUserFavoriteList(userId,propertyId);
+    }
+
+
+    public async removePropertyFromUserFavoriteList(userId: string, propertyId: string): Promise<void> {
+        return await this.favoritePropertiesForUser.removePropertyFromUserFavoriteList(userId,propertyId);
     }
 
 

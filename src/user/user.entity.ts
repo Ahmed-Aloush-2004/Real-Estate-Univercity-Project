@@ -1,8 +1,9 @@
 
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { UserRole } from './enums/user-role.enum';
 import { Office } from 'src/office/office.entity';
 import { Photo } from 'src/photo/photo.entity';
+import { Property } from 'src/property/property.entity';
 
 @Entity()
 export class User {
@@ -42,12 +43,12 @@ export class User {
     email: string;
 
 
-    @OneToOne(() => Photo, { onDelete: 'SET NULL', nullable: true })
+    @OneToOne(() => Photo, { eager:true, onDelete: 'SET NULL', nullable: true, })
     @JoinColumn()
     photo?: Photo;
 
     @Column({
-        type: 'enum',  
+        type: 'enum',
         enum: UserRole,
         nullable: false,
         default: UserRole.Customer
@@ -63,6 +64,10 @@ export class User {
 
     @OneToOne(() => Office, (office) => office.manager)
     office?: Office;
+
+    @ManyToMany(() => Property)
+    @JoinTable()
+    favoriteProperties: Property[];
 
 
 }

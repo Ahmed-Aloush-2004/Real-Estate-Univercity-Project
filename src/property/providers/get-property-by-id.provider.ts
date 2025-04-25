@@ -17,7 +17,7 @@ export class GetPropertyByIdProvider {
                 where:{
                     id
                 },
-                relations:['office','photos','location']
+                relations:['office','photos','location','propertyComments']
             })
             if (!property) throw new NotFoundException(`Property with this id:${id} doesn't exist.`)
             return property;
