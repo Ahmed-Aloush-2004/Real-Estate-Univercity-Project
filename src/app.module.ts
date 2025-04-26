@@ -66,7 +66,3 @@ const ENV = process.env.NODE_ENV;
   ],
 })
 export class AppModule { }
-
-export class jj{}
-
-/// Omar jamal Kahil
