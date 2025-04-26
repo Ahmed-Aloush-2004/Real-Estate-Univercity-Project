@@ -9,12 +9,14 @@ import {
   ValidateNested,
   IsUUID,
   ArrayMinSize,
+  IsArray,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { PropertyType } from '../enums/property-type.enum';
 import { PropertySellingType } from '../enums/property-selling-type.enum';
 import { PropertyOperationType } from '../enums/property-operation-type.enum';
 import { CreateLocationDto } from 'src/location/dtos/create-location.dto';
+import { PropertyProblemType } from 'src/property-problem/enums/property-problem.enum';
 
 export class CreatePropertyDto {
   @IsNotEmpty()
@@ -44,6 +46,11 @@ export class CreatePropertyDto {
   @IsOptional()
   @IsNumber()
   rating?: number;
+
+
+  @IsArray()
+  @IsOptional()
+  problems?:PropertyProblemType[];
 
   // @IsNotEmpty()
   // @IsUUID()

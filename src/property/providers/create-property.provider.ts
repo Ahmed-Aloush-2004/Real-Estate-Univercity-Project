@@ -1,4 +1,6 @@
 import {
+  forwardRef,
+  Inject,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -10,12 +12,17 @@ import { Location } from '../../location/location.entity';
 import { User } from 'src/user/user.entity';
 import { PhotoService } from 'src/photo/providers/photo.service';
 import { Photo } from 'src/photo/photo.entity';
+import { PropertyProblem } from 'src/property-problem/property-problem.entity';
+import { PropertyProblemService } from 'src/property-problem/property-problem.service';
 
 @Injectable()
 export class CreatePropertyProvider {
   constructor(
     private readonly dataSource: DataSource,
     private readonly photoService: PhotoService,
+
+    @Inject(forwardRef(()=> PropertyProblemService))
+    private readonly propertyProblemService:PropertyProblemService,
   ) { }
 
   public async createProperty(
@@ -55,14 +62,23 @@ export class CreatePropertyProvider {
           photos.push(savedUpload);
         }
       }
-  
+
+      
       const property = queryRunner.manager.create(Property, {
         ...propertyData,
         location,
         photos,
         office: user.office,
       });
-  
+      
+      const problems: PropertyProblem[] = [];
+      if (createPropertyDto.problems?.length) {
+        for (const problem of createPropertyDto.problems) {
+          const createdProblem = await this.propertyProblemService.addPropertyProblem({propertyId:property.id,name:problem});
+          problems.push(createdProblem);
+        }
+      }
+      property.PropertyProblems = problems;
       const savedProperty = await queryRunner.manager.save(property);
   
       await queryRunner.commitTransaction();

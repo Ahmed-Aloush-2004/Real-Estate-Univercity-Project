@@ -11,14 +11,15 @@ import { GetPropertiesWithFilterAndPaginationProvider } from './providers/get-pr
 import { PhotoModule } from 'src/photo/photo.module';
 import { LocationModule } from 'src/location/location.module';
 import { PropertyCommentModule } from 'src/property-comment/property-comment.module';
+import { PropertyProblemModule } from 'src/property-problem/property-problem.module';
 
 @Module({
     imports:[
         TypeOrmModule.forFeature([Property]),
         LocationModule,
         PhotoModule,
-        forwardRef(()=> PropertyCommentModule)
-        ,
+        forwardRef(()=> PropertyCommentModule),
+        forwardRef(()=> PropertyProblemModule),
     ],
     providers: [PropertyService, CreatePropertyProvider, UpdatePropertyProvider, DeletePropertyProvider, GetPropertyByIdProvider, GetPropertiesWithFilterAndPaginationProvider],
     controllers: [PropertyController],

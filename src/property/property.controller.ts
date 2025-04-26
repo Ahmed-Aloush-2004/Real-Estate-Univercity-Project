@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseInterceptors, UploadedFiles, Delete, Param, UsePipes, BadRequestException, Patch, UseGuards, Get, ParseUUIDPipe, Query } from '@nestjs/common';
+import { Controller, Post, Body, UseInterceptors, UploadedFiles, Delete, Param, UsePipes, BadRequestException, Patch, UseGuards, Get, ParseUUIDPipe, Query, ParseArrayPipe } from '@nestjs/common';
 import { PropertyService } from './providers/property.service';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { CreatePropertyDto } from './dtos/create-property.dto';
@@ -9,6 +9,8 @@ import { ActiveUserData } from 'src/auth/interfaces/active-user-data.interface';
 import { ActiveUser } from 'src/auth/decorators/active-user.decorator';
 import { AccessRealEstateOfficeMethodsGuard } from 'src/auth/guards/access-real-estate-office-methods/access-real-estate-office-methods.guard';
 import { FilterPropertyDto } from './dtos/filter-property.dto';
+import { ParseStringArrayInterceptor } from 'src/common/interceptors/parse-string-array.interceptor';
+import { ParseStringArrayPipe } from 'src/common/pipes/parse-string-array.pipe';
 
 @Controller('property')
 export class PropertyController {
@@ -53,7 +55,7 @@ export class PropertyController {
   @UseGuards(AccessRealEstateOfficeMethodsGuard)
   async createProperty(
     @ActiveUser() user: ActiveUserData,
-    @Body(ParseLocationPipe) createPropertyDto: any,
+    @Body(new ParseStringArrayPipe('problems'),ParseLocationPipe) createPropertyDto: any,
     @UploadedFiles() files: Express.Multer.File[]
   ) {    
     return this.propertyService.createProperty(user.sub, createPropertyDto, files);

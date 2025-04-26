@@ -6,9 +6,11 @@ import { Office } from "src/office/office.entity";
 import { Photo } from "src/photo/photo.entity";
 import { PropertyOperationType } from "./enums/property-operation-type.enum";
 import { PropertyComment } from "src/property-comment/property-comment.entity";
+import { PropertyProblem } from "src/property-problem/property-problem.entity";
 @Entity()
 export class Property {
     @PrimaryGeneratedColumn('uuid')
+    
     id: string;
 
     @Column({
@@ -73,6 +75,12 @@ export class Property {
 
     @OneToMany(() => PropertyComment, (propertyComment) => propertyComment.property)
     propertyComments: PropertyComment[];
+
+    @OneToMany(() => PropertyProblem, (propertyProblem) => propertyProblem.property)
+    PropertyProblems: PropertyProblem[];
+
+
+
 
 }
 
