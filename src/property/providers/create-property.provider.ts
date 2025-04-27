@@ -7,7 +7,7 @@ import { DataSource } from 'typeorm';
 import { Property } from '../property.entity';
 import { CreatePropertyDto } from '../dtos/create-property.dto';
 import { Location } from '../../location/location.entity';
-import { User } from 'src/user/user.entity';
+import { User } from 'src/user/entities/user.entity';
 import { PhotoService } from 'src/photo/providers/photo.service';
 import { Photo } from 'src/photo/photo.entity';
 

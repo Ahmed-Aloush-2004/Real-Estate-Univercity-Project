@@ -7,7 +7,7 @@ import appConfig from './config/app.config';
 import databaseConfig from './config/database.config';
 import environmentValidation from './config/environment.validation';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './user/user.entity';
+import { User } from './user/entities/user.entity';
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthenticationGuard } from './auth/guards/authentication/authentication.guard';
@@ -19,7 +19,11 @@ import { OfficeModule } from './office/office.module';
 import { Office } from './office/office.entity';
 import { PhotoModule } from './photo/photo.module';
 import { Photo } from './photo/photo.entity';
-import { LocationModule } from './location/location.module';
+import { LocationModule } from './location/location.module';import { FavoriteModule } from './favorite/favorite.module';
+import { ComplaintsModule } from './complaints/complaints.module';
+import { BlogModule } from './blog/blog.module';import { LicenseModule } from './license/license.module';import { ProblemModule } from './problem/problem.module';import { AttributeModule } from './attribute/attribute.module';
+import { PropertyCommentsModule } from './property_comments/property_comments.module';
+import { PropertyAttributesModule } from './property_attributes/property_attributes.module';
 
 const ENV = process.env.NODE_ENV;
 
@@ -52,8 +56,14 @@ const ENV = process.env.NODE_ENV;
     LocationModule,
     PropertyModule,
     OfficeModule,
-
-
+    FavoriteModule,
+    ComplaintsModule,
+    BlogModule,
+    LicenseModule,
+    ProblemModule,
+    AttributeModule,
+    PropertyCommentsModule,
+    PropertyAttributesModule,
   ],
   controllers: [AppController],
   providers: [

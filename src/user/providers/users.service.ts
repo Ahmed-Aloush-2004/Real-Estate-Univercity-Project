@@ -1,6 +1,6 @@
 import { BadRequestException, forwardRef, Inject, Injectable, NotFoundException, RequestTimeoutException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '../user.entity';
+import { User } from '../entities/user.entity';
 import { Repository } from 'typeorm';
 import { AuthService } from 'src/auth/providers/auth.service';
 import { HashingProvider } from 'src/auth/providers/hashing.provider';

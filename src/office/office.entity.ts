@@ -1,7 +1,9 @@
+import { Complaint } from "src/complaints/entities/complaint.entity";
 import { Photo } from "src/photo/photo.entity";
 import { Property } from "src/property/property.entity";
-import { User } from "src/user/user.entity";
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { User } from "src/user/entities/user.entity";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Office_Comments } from "./office_comments.entity";
 
 
 
@@ -34,6 +36,14 @@ export class Office {
 
     @OneToMany(() => Property, (property) => property.office)
     properties: Property[];
+
+    //@@@@@@@@@@@@@@@@
+    @OneToMany(() => Complaint, (complaint) => complaint.office)
+    complaintsOnOffice: Complaint[];
+
+    //@@@@@@@@@@@@@@@@
+    @OneToMany(() => Office_Comments, (comment) => comment.office)
+    commentBy: Office_Comments[];
 
     
     

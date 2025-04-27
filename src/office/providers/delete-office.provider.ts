@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { Office } from '../office.entity';
-import { User } from 'src/user/user.entity';
+import { User } from 'src/user/entities/user.entity';
 import { PhotoService } from 'src/photo/providers/photo.service';
 import { Photo } from 'src/photo/photo.entity';
 

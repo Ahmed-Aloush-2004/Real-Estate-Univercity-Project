@@ -2,7 +2,7 @@ import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { GenerateTokenProvider } from './generate-token.provider';
 import { UserService } from 'src/user/providers/users.service';
 import { CreateUserDto } from '../../user/dtos/create-user.dto';
-import { User } from 'src/user/user.entity';
+import { User } from 'src/user/entities/user.entity';
 import { LoginDto } from '../dtos/login.dto';
 import { LoginProvider } from './login.provider';
 import { RefreshTokensProvider } from './refresh-tokens.provider';
