@@ -1,12 +1,12 @@
 
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { UserRole } from '../enums/user-role.enum';
-import { Office } from 'src/office/office.entity';
+import { Office } from 'src/office/entities/office.entity';
 import { Photo } from 'src/photo/photo.entity';
 import { Complaint } from 'src/complaints/entities/complaint.entity';
 import { Favorite } from 'src/favorite/entities/favorite.entity';
 import { Property_Comments } from 'src/property_comments/entities/property_comment.entity';
-import { Office_Comments } from 'src/office/office_comments.entity';
+import { Office_Comments } from 'src/office/entities/office_comments.entity';
 import { Blog } from 'src/blog/entities/blog.entity';
 
 @Entity()

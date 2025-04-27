@@ -8,7 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { Property } from '../property.entity';
 import { Location } from '../../location/location.entity';
-import { Office } from 'src/office/office.entity';
+import { Office } from 'src/office/entities/office.entity';
 import { PhotoService } from 'src/photo/providers/photo.service';
 import { Photo } from 'src/photo/photo.entity';
 

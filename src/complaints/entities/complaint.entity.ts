@@ -1,4 +1,4 @@
-import { Office } from "src/office/office.entity";
+import { Office } from "src/office/entities/office.entity";
 import { User } from "src/user/entities/user.entity";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 

@@ -45,5 +45,4 @@ export class CloudinaryProvider {
     return `${folderName}/${fileName}`; // "nestjs/zfwjt9rq9iybgnm7sitb"
   }
   
-
 }

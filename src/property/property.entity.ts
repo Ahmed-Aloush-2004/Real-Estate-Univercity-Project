@@ -2,7 +2,6 @@ import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, Ma
 import { PropertyType } from "./enums/property-type.enum";
 import { Location } from '../location/location.entity'
 import { PropertySellingType } from "./enums/property-selling-type.enum";
-import { Office } from "src/office/office.entity";
 import { Photo } from "src/photo/photo.entity";
 import { PropertyOperationType } from "./enums/property-operation-type.enum";
 import { Favorite } from "src/favorite/entities/favorite.entity";
@@ -10,6 +9,7 @@ import { Property_Comments } from "src/property_comments/entities/property_comme
 import { License } from "src/license/entities/license.entity";
 import { Property_Attributes } from "src/property_attributes/entities/property_attribute.entity";
 import { Property_Problem } from "./property_problem.entity";
+import { Office } from "src/office/entities/office.entity";
 @Entity()
 export class Property {
     @PrimaryGeneratedColumn('uuid')
@@ -54,7 +54,7 @@ export class Property {
 
     @ManyToOne(() => Office, (office) => office.properties)
     @JoinColumn()
-    office: Office
+    office: Office;
 
 
     @Column({

@@ -1,6 +1,7 @@
 import { Property_Problem } from "src/property/property_problem.entity";
-import { Column, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
+@Entity()
 export class Problem {
     @PrimaryGeneratedColumn()
     id: number;

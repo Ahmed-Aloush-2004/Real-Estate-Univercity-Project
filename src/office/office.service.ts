@@ -2,7 +2,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Office } from './office.entity';
+import { Office } from './entities/office.entity';
 import { UpdateOfficeDto } from './dtos/update-office.dto';
 import { CreateOfficeProvider } from './providers/create-office.provider';
 import { UpdateOfficeProvider } from './providers/update-office.provider';

@@ -10,7 +10,7 @@ import { Property } from '../property.entity';
 import { Location } from '../../location/location.entity';
 import { PhotoService } from 'src/photo/providers/photo.service';
 import { UpdatePropertyDto } from '../dtos/update-property.dto';
-import { Office } from 'src/office/office.entity';
+import { Office } from 'src/office/entities/office.entity';
 import { Photo } from 'src/photo/photo.entity';
 import { UpdateLocationDto } from 'src/location/dtos/update-location.dto';
 

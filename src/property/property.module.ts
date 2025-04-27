@@ -10,12 +10,15 @@ import { GetPropertyByIdProvider } from './providers/get-property-by-id.provider
 import { GetPropertiesWithFilterAndPaginationProvider } from './providers/get-properties-with-filter-and-pagination.provider';
 import { PhotoModule } from 'src/photo/photo.module';
 import { LocationModule } from 'src/location/location.module';
+import { Property_Problem } from './property_problem.entity';
+import { ProblemModule } from 'src/problem/problem.module';
 
 @Module({
     imports:[
-        TypeOrmModule.forFeature([Property]),
+        TypeOrmModule.forFeature([Property  , Property_Problem]),
         LocationModule,
         PhotoModule,
+        ProblemModule
     ],
     providers: [PropertyService, CreatePropertyProvider, UpdatePropertyProvider, DeletePropertyProvider, GetPropertyByIdProvider, GetPropertiesWithFilterAndPaginationProvider],
     controllers: [PropertyController],

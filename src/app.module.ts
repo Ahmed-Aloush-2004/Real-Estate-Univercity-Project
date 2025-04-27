@@ -16,7 +16,7 @@ import { PropertyModule } from './property/property.module';
 import { Location } from './location/location.entity';
 import { Property } from './property/property.entity';
 import { OfficeModule } from './office/office.module';
-import { Office } from './office/office.entity';
+import { Office } from './office/entities/office.entity';
 import { PhotoModule } from './photo/photo.module';
 import { Photo } from './photo/photo.entity';
 import { LocationModule } from './location/location.module';import { FavoriteModule } from './favorite/favorite.module';
@@ -24,6 +24,17 @@ import { ComplaintsModule } from './complaints/complaints.module';
 import { BlogModule } from './blog/blog.module';import { LicenseModule } from './license/license.module';import { ProblemModule } from './problem/problem.module';import { AttributeModule } from './attribute/attribute.module';
 import { PropertyCommentsModule } from './property_comments/property_comments.module';
 import { PropertyAttributesModule } from './property_attributes/property_attributes.module';
+import { Favorite } from './favorite/entities/favorite.entity';
+import { Attribute } from './attribute/entities/attribute.entity';
+import { Problem } from './problem/entities/problem.entity';
+import { Property_Comments } from './property_comments/entities/property_comment.entity';
+import { Property_Problem } from './property/property_problem.entity';
+import { Property_Attributes } from './property_attributes/entities/property_attribute.entity';
+import { Blog } from './blog/entities/blog.entity';
+import { Complaint } from './complaints/entities/complaint.entity';
+import { Office_Comments } from './office/entities/office_comments.entity';
+import { Office_Rating } from './office/entities/office_rating.entity';
+import { License } from './license/entities/license.entity';
 
 const ENV = process.env.NODE_ENV;
 
@@ -47,7 +58,24 @@ const ENV = process.env.NODE_ENV;
         password: configService.get('databaseConfig.password'),
         synchronize: configService.get('databaseConfig.synchronize'),
         autoLoadEntities: configService.get('databaseConfig.autoLoadEntities'),
-        entities:[User,Photo,Location,Property,Office],
+        entities:[
+          User,
+          Photo,
+          Location,
+          Property,
+          Office, 
+          Favorite, 
+          Attribute, 
+          Problem, 
+          Property_Comments, 
+          Property_Problem,
+          Property_Attributes,
+          Blog,
+          Complaint,
+          Office_Comments,
+          Office_Rating,
+          License
+        ],
       }),
     }),
     UserModule,
@@ -64,6 +92,7 @@ const ENV = process.env.NODE_ENV;
     AttributeModule,
     PropertyCommentsModule,
     PropertyAttributesModule,
+    
   ],
   controllers: [AppController],
   providers: [

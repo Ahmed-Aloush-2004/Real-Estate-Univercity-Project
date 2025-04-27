@@ -1,7 +1,7 @@
 // providers/create-real-estate-office.provider.ts
 import { Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common';
 import { UserService } from '../../user/providers/users.service';
-import { Office } from '../office.entity';
+import { Office } from '../entities/office.entity';
 import { DataSource } from 'typeorm';
 import { PhotoService } from 'src/photo/providers/photo.service';
 import { CreateOfficeDto } from '../dtos/create-office.dto';

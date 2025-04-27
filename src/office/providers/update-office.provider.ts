@@ -73,7 +73,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
-import { Office } from '../office.entity';
+import { Office } from '../entities/office.entity';
 import { UpdateOfficeDto } from '../dtos/update-office.dto';
 import { User } from 'src/user/entities/user.entity';
 import { PhotoService } from 'src/photo/providers/photo.service';
