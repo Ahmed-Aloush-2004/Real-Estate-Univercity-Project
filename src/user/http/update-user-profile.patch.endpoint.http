@@ -1,0 +1,7 @@
+PATCH http://localhost:3000/user/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiMWY1M2Y3MC0zM2E4LTQ1ZDMtOTIyMy1lODdkZmYyYTNlM2QiLCJlbWFpbCI6ImFobWVkYWxsb3VzaGdwdDJAZ21haWwuY29tIiwicm9sZSI6ImN1c3RvbWVyIiwiaWF0IjoxNzQ1MDQ2ODUwLCJleHAiOjE3NDUwNTA0NTAsImF1ZCI6ImxvY2FsaG9zdDozMDAwIiwiaXNzIjoibG9jYWxob3N0OjMwMDAifQ.nfixxIOZQ_tgiXjT9Wfv9ozJdATiOr0TezFAmvrAVyk
+Content-Type: multipart/form-data
+
+firstName=John
+lastName=Doe
+file=C:\Users\NITRO\Desktop\images-products
