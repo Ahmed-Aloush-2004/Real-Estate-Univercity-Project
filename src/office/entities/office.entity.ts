@@ -1,0 +1,57 @@
+import { OfficeComment } from "src/office-comment/office-comment.entity";
+import { Photo } from "src/photo/photo.entity";
+import { Property } from "src/property/entities/property.entity";
+import { User } from "src/user/entities/user.entity";
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { LicensePhoto } from "./license-photo.entity";
+import { Blog } from "src/blog/entities/blog.entity";
+
+
+
+@Entity()
+export class Office {
+
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
+
+    @Column({
+        type: 'varchar',
+        nullable: false
+    })
+    name: string
+
+    @OneToOne(() => LicensePhoto)
+    @JoinColumn()
+    license: LicensePhoto;
+
+    @Column({
+        type: 'numeric',
+        nullable: true,
+        default: 0,
+    })
+    rating: number;
+
+    @OneToOne(() => User, (user) => user.office)
+    @JoinColumn()
+    manager: User;
+
+    @OneToMany(() => Property, (property) => property.office)
+    properties: Property[];
+
+
+    @OneToMany(() => OfficeComment, (officeComment) => officeComment.office)
+    officeComments: OfficeComment[];
+
+    @OneToMany(() => Blog, (blog) => blog.office)
+    blogs: Blog[];
+
+
+
+
+}
+
+
+
+
+// @OneToMany(() => Property, (property) => property.realEstateOffice, { cascade: true })
+// properties: Property[];
