@@ -1,0 +1,9 @@
+POST http://localhost:3000/auth/register
+Content-Type:application/json
+
+
+{
+    "email":"ahmedalloushgpt2@gmail.com",
+    "phoneNumber":"0188795525",
+    "password":"Try88!z"
+}
